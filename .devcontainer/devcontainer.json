@@ -1,0 +1,16 @@
+{
+  "name": "Stock Prediction",
+  "build": {
+    "dockerfile": "../Dockerfile"   // Adjust this path if your Dockerfile is not in the root
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-azuretools.vscode-docker"
+  ],
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python"
+  },
+  "forwardPorts": [5678],
+  "postCreateCommand": "pip install -r requirements.txt",
+  "remoteUser": "root"
+}
