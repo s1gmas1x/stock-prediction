@@ -1,5 +1,10 @@
 FROM python:3.10-slim
 
+# Install Git
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt .

@@ -1,4 +1,10 @@
 import yfinance as yf
+import pandas as pd
+
+# ANSI escape codes for coloring
+RED = '\033[91m'   # Red color
+GREEN = '\033[92m' # Green color
+RESET = '\033[0m'  # Reset color
 
 def calculate_roic(ticker):
     # Fetch stock data
@@ -10,6 +16,10 @@ def calculate_roic(ticker):
 
     # Prepare a dictionary to store ROIC results by year
     roic_results = {}
+
+    # Initialize totals for calculating overall ROIC
+    total_roic_sum = 0  
+    count_years = 0  
 
     # Get the number of years to consider (up to 5 years of data)
     years = income_statement.index[:5]  # Adjust as needed
@@ -35,20 +45,19 @@ def calculate_roic(ticker):
 
             # Calculate ROIC
             roic = (ebit * (1 - tax_rate)) / invested_capital
-            roic_results[year] = roic * 100  # Convert to percentage
+            roic_percent = round(roic * 100, 1)  # Convert to percentage and round to 1 decimal place
+            roic_results[year] = roic_percent
+
+            # Accumulate total ROIC for calculating the overall ROIC
+            total_roic_sum += roic_percent
+            count_years += 1
 
         except IndexError as e:
             print(f"Missing data for {ticker} in year {year}: {e}")
         except Exception as e:
             print(f"Error calculating ROIC for {ticker} in year {year}: {e}")
 
-    return roic_results
+    # Calculate the overall ROIC across all years
+    overall_roic = round(total_roic_sum / count_years, 1)  # Round to 1 decimal place
 
-# Example usage
-ticker = "AAPL"
-roic_aapl = calculate_roic(ticker)
-
-# Display the results in a formatted way
-print(f"ROIC for {ticker} over the years:")
-for year, roic in roic_aapl.items():
-    print(f"{year}: {roic:.2f}%")
+    return roic_results, overall_roic
