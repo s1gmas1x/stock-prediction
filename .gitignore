@@ -1,0 +1,27 @@
+# Ignore .env file to protect credentials
+.env
+
+# Python caches and build artifacts
+*.pyc
+__pycache__/
+
+# Docker files and containers
+docker-compose.override.yml
+*.log
+*.pid
+
+# VS Code workspace settings (optional)
+.vscode/
+
+# Ignore unnecessary data files or outputs
+*.csv
+*.xlsx
+*.json
+*.db
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Git files for easier container management
+*.tar
